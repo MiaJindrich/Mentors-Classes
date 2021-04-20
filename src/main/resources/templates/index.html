@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<h1>Welcome to Mentor Scheduler :)</h1>
+
+<div th:if="${mentors != null}">
+    <p>See detail of mentors:</p>
+    <ul th:each="mentor: ${mentors}">
+        <li><a th:text="${mentor.name}" th:href="@{/mentor/{id}(id=${mentor.id})}"></a></li>
+    </ul>
+</div>
+
+<div th:unless="${mentors != null}">
+    <p>No mentors yet!</p>
+</div>
+
+<h2>Add new mentor</h2>
+
+<div>
+    <form action="/mentor" method="post">
+        <label for="name">Name</label><br>
+        <input type="text" id="name" name="mentorName"><br>
+
+        <label for="class">Class</label><br>
+        <span th:each="class: ${classes}">
+        <input type="radio" id="class" name="classId" th:value="${class.id}">
+        <label th:text="${class.name}" for="class"></label>
+        </span>
+
+        <input type="submit" value="Add">
+    </form>
+</div>
+
+<div>
+    <form action="/class" method="post">
+        <label for="new_class">Create new class:</label><br>
+        <input type="text" id="new_class" name="name">
+        <input type="submit" value="Create class">
+    </form>
+</div>
+
+<div>
+        <label>Delete Class</label><br>
+        <span th:each="class: ${classes}">
+        <input type="radio" th:value="${class.id}">
+        <label th:text="${class.name}"></label>
+
+            <form th:action="@{/deleteclass/{id}(id=${class.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </span>
+
+</div>
+
+
+
+</body>
+</html>
